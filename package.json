@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "inquirer": "^8.2.0",
+    "mysql2": "^2.3.3"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "teamtracker",
+  "description": "## Description",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brento20/teamtracker.git"
+  },
+  "author": "Brenton Weaver",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Brento20/teamtracker/issues"
+  },
+  "homepage": "https://github.com/Brento20/teamtracker#readme"
+}
