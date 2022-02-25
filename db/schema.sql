@@ -3,21 +3,23 @@ CREATE DATABASE mycompany_db;
 
 USE mycompany_db;
 
-CREATE TABLE employeeNames (
-    id INT,
-    first_name VARCHAR(30) NOT NULL,
-    last_name VARCHAR(30) NOT NULL
+CREATE TABLE employee (
+    id INT PRIMARY KEY,
+    first_name VARCHAR(30),
+    last_name VARCHAR(30),
+    role_id INT,
+    manager_id INT
     
 );
 
 CREATE TABLE roles (
     id INT,
-    role_title VARCHAR(30) NOT NULL,
-    salary INT
-    
+    title VARCHAR(30) NOT NULL,
+    salary DECIMAL,
+    departmant_id INT
 );
 
-CREATE TABLE departments (
-    id INT,
+CREATE TABLE department (
+    id INT PRIMARY KEY,
     departmant VARCHAR(30) NOT NULL
 );

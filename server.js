@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const PORT = process.env.PORT || 3001;
 const app = express();
+const cTable = require('console.table');
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -15,14 +16,15 @@ const db = mysql2.createConnection(
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
     },
+
+    console.log("Welcome to my company")
 );
 
 
-function startPrompt() {
-    console.log("Welcome to my company");
+function startPrompt() {   
     inquirer.prompt([
     {
-    type: "list",
+    type: "rawlist",
     message: "What would you like to do?",
     name: "choice",
     choices: [
@@ -35,7 +37,7 @@ function startPrompt() {
         .then( answer => {
         switch (answer.choice) {
             case 'View All Employees':
-                console.log('option1');
+                console.log('******************************\n******************************\n******************************\n');
                 viewAllEmployee();
                 // write a function to show all employees in the database then call the start prompt function again
                 break;
@@ -57,7 +59,8 @@ function startPrompt() {
 
 function viewAllEmployee() {
     db.query('SELECT * FROM employeeNames', function (err, results) {
-    console.log(results);
+    console.table(results);
+    startPrompt();
     });
 };
 
@@ -72,7 +75,7 @@ function groupEmployeeDep() {
 //Things go here
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    //console.log(`Server running on port ${PORT}`);
 });
 
 startPrompt();
