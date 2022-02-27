@@ -11,7 +11,6 @@ const { type } = require('express/lib/response');
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-
 const db = mysql2.createConnection(
     {
         user: process.env.DB_USER,
@@ -22,7 +21,6 @@ const db = mysql2.createConnection(
     console.log(colors.rainbow("*************************\n*************************\n* WELCOME TO MY COMPANY *\n*************************\n*************************\n"))
 );
 
-
 function startPrompt() {   
     inquirer.prompt([
     {
@@ -30,32 +28,45 @@ function startPrompt() {
     message: "What would you like to do?",
     name: "choice",
     choices: [
-            "View All Employees", 
+            "Add New Employee",
+            "Add New Role",
+            "View All Employees",
+            "Update Employee Profile",
             "Group Employees By Roles",
-            "Add New Employee", 
+            "Goodbye",
             ]
     }
 ])
         .then( answer => {
         switch (answer.choice) {
+
+            case 'Add New Employee':
+                console.log(colors.bold('\n \n NEW EMPLOYEE ENTRY \n'));
+                addEmployee();
+                break;
+
+            case 'Add New Role':
+                console.log(colors.bold('\n \n NEW ROLE CREATOR \n'));
+                addRole();
+                break;
+
             case 'View All Employees':
-                console.log('******************************\n******************************\n******************************\n');
+                console.log(colors.bold('\n \n ALL EMPLOYEES \n'));
                 viewAllEmployee();
                 break;
 
             case 'Group Employees By Roles':
-                console.log('option2');
+                console.log(colors.bold('\n \n ALL EMPLOYEES WITH ROLES \n'));
                 groupEmployeeRole();
                 // write a function to show all employees grouped by role in the database then call the start prompt function again
                 break;
 
-            case 'Add New Employee':
-                console.log('option3');
-                addEmployee();
+            case 'Goodbye':
+                endProcess();
                 break;
 
             default:
-                console.log(`Unable to select options for ${choices}`);
+                console.log(`ERROR: I dont even know how you got here?!`);
         }
     })
 };
@@ -139,12 +150,41 @@ function addEmployee() {
         
         db.query(`INSERT INTO mycompany_db.employee (first_name, last_name, roles) VALUES('${firstName}', '${lastName}', ${roleID});`, function (err, results) {
         if (err) throw err;
+        console.log(colors.green(`${firstName} ${lastName} added to Employee Database! `))
         startPrompt();
     });
-}
-)};
+})};
 
-app.listen(PORT, () => {
-});
+function addRole() {
+    inquirer.prompt([
+        {
+            message: "enter title:",
+            type: "input",
+            name: "title"
+        }, 
+        {
+            message: "enter salary:",
+            type: "number",
+            name: "salary"
+        }
+    ]).then(function (answers) {
+        db.query("INSERT INTO roles (title, salary, department_id) values (?, ?)", [answers.title, answers.salary], function (err, data) {
+        if (err) throw err;
+        console.table(results);
+        })
+        startPrompt();
+    })
+
+}
+
 
 startPrompt();
+
+function endProcess(){    
+    console.log(colors.rainbow("*************************\n*************************\n* THANK YOU COME AGAIN! *\n*************************\n*************************\n"))
+    db.quit()
+};
+
+app.listen(PORT, () => {
+    //console.log(`Server running on port ${PORT}`);
+});
