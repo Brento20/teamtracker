@@ -17,7 +17,6 @@ const db = mysql2.createConnection(
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
     },
-
     console.log(colors.rainbow("*************************\n*************************\n* WELCOME TO MY COMPANY *\n*************************\n*************************\n"))
 );
 
@@ -158,19 +157,19 @@ function addEmployee() {
 function addRole() {
     inquirer.prompt([
         {
-            message: "enter title:",
+            message: "New role title:",
             type: "input",
             name: "title"
         }, 
         {
-            message: "enter salary:",
+            message: "New role salary:",
             type: "number",
             name: "salary"
         },
         {
             type: "rawlist",
             message: "Which department will be responsible for this role?",
-            name: "role",
+            name: "dep",
             choices: [
                 "Entertainment", 
                 "Landscape",
@@ -179,20 +178,8 @@ function addRole() {
         }
     ])
     .then(answers => {
-        const  {title, salary, department} = answers; 
-        switch (department) {
-            case 'Entertainment':
-                var depID = 1
-                break;
-            case 'Landscape':
-                var depID = 2
-                break;
-            case 'Chaos Department':
-                var depID = 3
-                break;
-        }
-
-        db.query(`INSERT INTO roles (title, salary, departmant_id) VALUES ('${title}', '${salary}', '${depID}')`, function (err, data) {
+        const  {title, salary,} = answers; 
+        db.query(`INSERT INTO roles (title, salary) VALUES ('${title}', '${salary}')`, function (err, data) {
             if (err) throw err;
             console.log(colors.green(`The role ${title} with a salary of ${salary} added to Employee Database! \n `))
             startPrompt();
@@ -200,13 +187,11 @@ function addRole() {
 
 })};
 
-
-startPrompt();
-
 function endProcess(){    
     console.log(colors.rainbow("*************************\n*************************\n* THANK YOU COME AGAIN! *\n*************************\n*************************\n"))
-    db.quit()
 };
+
+startPrompt();
 
 app.listen(PORT, () => {
     //console.log(`Server running on port ${PORT}`);
