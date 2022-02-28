@@ -35,7 +35,7 @@ It uses MYSQL for database building and store data as well as node.js to run com
 >*DB_USER=root*
 >
 >*DB_NAME=mycompany_db"*
-4. Using the source command in mysql, run the schema.sql ***this*** seeds.sql files in the repo.
+4. Using the source command in mysql, run the schema.sql ***then*** seeds.sql files in the repo.
 
 5. Start the application using "NPM Start" in te command line.
 

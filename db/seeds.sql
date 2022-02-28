@@ -2,25 +2,25 @@ USE mycompany_db;
 SET FOREIGN_KEY_CHECKS=0;
 TRUNCATE employee;
 TRUNCATE roles;
-TRUNCATE department;
-SET FOREIGN_KEY_CHECKS=1;
+TRUNCATE departments;
 
-INSERT INTO department (id, departmant)
-VALUES  (201, "Entertainment "),
-        (202, "Landscape "),
-        (203, "Chaos Department ");
 
-INSERT INTO roles (id, title, salary, departmant)
-VALUES  (101, "Accountant", 90000, 201),
-        (102, "Dancer", 65000, 201),
-        (103, "Topiary Artist", 145000, 202),
-        (104, "Production", 45000, 203);
+INSERT INTO departments (departmant_name)
+VALUES  ("Entertainment "),
+        ("Landscape "),
+        ("Chaos Department ");
 
-INSERT INTO employee (id, first_name, last_name, roles)
-VALUES  (1, "Liam ", "O'Kane ", 101),
-        (2, "Chris ", "Le Page ", 104),
-        (3, "Rachel ", "Pearson ", 101),
-        (4, "Matthew ", "Lawson ", 103),
-        (5, "Adam ", "Pearson ", 103),
-        (6, "Gina ", "Rose Drew ", 102),
-        (7, "Lilly ", "Tomlin ", 104);
+INSERT INTO roles (title, salary, departmant_id)
+VALUES  ("Accountant", 90000, 3),
+        ("Dancer", 65000, 1),
+        ("Topiary Artist", 145000, 2),
+        ("Production", 45000, 3);
+
+INSERT INTO employee (first_name, last_name, roles_id)
+VALUES  ("Liam ", "O'Kane ", 1),
+        ("Chris ", "Le Page ", 4),
+        ("Rachel ", "Pearson ", 1),
+        ("Matthew ", "Lawson ", 3),
+        ("Adam ", "Pearson ", 3),
+        ("Gina ", "Rose Drew ", 2),
+        ("Lilly ", "Tomlin ", 4);
