@@ -5,6 +5,9 @@
 This application will help managers and employers track the roles of staff across several catagories. 
 It uses MYSQL for database building and store data as well as node.js to run command line javascript.
 
+## Demo Video: 
+https://youtu.be/wGjbByp4B3I
+
 # Dependencies/NPM assets used
 **NPM:**
 
