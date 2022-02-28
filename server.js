@@ -32,7 +32,7 @@ function startPrompt() {
             "Add New Role",
             "View All Employees",
             "Update Employee Profile",
-            "Group Employees By Roles",
+            "Display Roles",
             "Goodbye",
             ]
     }
@@ -55,8 +55,8 @@ function startPrompt() {
                 viewAllEmployee();
                 break;
 
-            case 'Group Employees By Roles':
-                console.log(colors.bold('\n \n ALL EMPLOYEES WITH ROLES \n'));
+            case 'Display Roles':
+                console.log(colors.bold('\n \n ALL AVAILABLE ROLES \n'));
                 groupEmployeeRole();
                 // write a function to show all employees grouped by role in the database then call the start prompt function again
                 break;
@@ -72,7 +72,7 @@ function startPrompt() {
 };
 
 function viewAllEmployee() {
-    db.query('SELECT * FROM employee', function (err, results) {
+    db.query('SELECT * FROM employee JOIN roles ON employee.roles_id = roles.id;', function (err, results) {
     if (err) throw err;
     console.table(results);
     startPrompt();
@@ -135,20 +135,20 @@ function addEmployee() {
 
         switch (role) {
             case 'Accountant':
-                var roleID = '101'
+                var roleID = '1'
                 break;
             case 'Dancer':
-                var roleID = '102'
+                var roleID = '2'
                 break;
             case 'Topiary Artist':
-                var roleID = '103'
+                var roleID = '3'
                 break;
             case 'Production':
-                var roleID = '104'
+                var roleID = '4'
                 break;
         }
         
-        db.query(`INSERT INTO mycompany_db.employee (first_name, last_name, roles) VALUES('${firstName}', '${lastName}', ${roleID});`, function (err, results) {
+        db.query(`INSERT INTO mycompany_db.employee (first_name, last_name, roles_id) VALUES('${firstName}', '${lastName}', ${roleID});`, function (err, results) {
         if (err) throw err;
         console.log(colors.green(`${firstName} ${lastName} added to Employee Database! `))
         startPrompt();
@@ -166,16 +166,39 @@ function addRole() {
             message: "enter salary:",
             type: "number",
             name: "salary"
+        },
+        {
+            type: "rawlist",
+            message: "Which department will be responsible for this role?",
+            name: "role",
+            choices: [
+                "Entertainment", 
+                "Landscape",
+                "Chaos Department", 
+                ]
         }
-    ]).then(function (answers) {
-        db.query("INSERT INTO roles (title, salary, department_id) values (?, ?)", [answers.title, answers.salary], function (err, data) {
-        if (err) throw err;
-        console.table(results);
-        })
-        startPrompt();
-    })
+    ])
+    .then(answers => {
+        const  {title, salary, department} = answers; 
+        switch (department) {
+            case 'Entertainment':
+                var depID = 1
+                break;
+            case 'Landscape':
+                var depID = 2
+                break;
+            case 'Chaos Department':
+                var depID = 3
+                break;
+        }
 
-}
+        db.query(`INSERT INTO roles (title, salary, departmant_id) VALUES ('${title}', '${salary}', '${depID}')`, function (err, data) {
+            if (err) throw err;
+            console.log(colors.green(`The role ${title} with a salary of ${salary} added to Employee Database! \n `))
+            startPrompt();
+    });
+
+})};
 
 
 startPrompt();
