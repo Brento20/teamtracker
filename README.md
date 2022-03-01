@@ -54,7 +54,7 @@ https://youtu.be/wGjbByp4B3I
 |When the applications is run the user is given options|Done|
 |User can view all employees|Done|
 |User can create new employees|Done|
-|User can view relationships between employees, roles and departments|TBD|
+|User can view relationships between employees, roles and departments|Done|
 |User can update employee details | TBD|
-|Video link is added to README.md|TBD|
+|Video link is added to README.md|Done|
 
